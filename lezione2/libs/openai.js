@@ -12,7 +12,7 @@ async function createMessage({ prompt, tools, tool_choice, messages }) {
         ...(messages || [])
       ],
       tools: tools || [],
-      model: "gpt-4o-mini",
+      model: "gpt-4.1-mini",
       tool_choice: tool_choice || "auto"
     });
     const response = completion.choices[0].message;
