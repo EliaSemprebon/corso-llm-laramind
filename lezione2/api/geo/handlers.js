@@ -10,13 +10,13 @@ async function handleToolPosizione(args) {
   };
   const url = "https://nominatim.openstreetmap.org/search";
   const result = await makeRequest("GET", url, params);
-  if (!result) {
-    return { error: "Errore interno, riprovare più tardi" };
+  if (!result.correct) {
+    return result.data;
   }
-  if (!Array.isArray(result) || result.length === 0) {
+  if (!Array.isArray(result.data) || result.data.length === 0) {
     return { error: "Nessun risultato trovato" };
   }
-  const { lat, lon } = result[0];
+  const { lat, lon } = result.data[0];
   return {
     latitude: parseFloat(lat),
     longitude: parseFloat(lon)
@@ -35,10 +35,10 @@ async function handleToolMeteo(args) {
   };
   const url = 'https://api.open-meteo.com/v1/forecast';
   const result = await makeRequest('GET', url, params);
-  if (!result) {
-    return { error: 'Errore interno, riprovare più tardi' };
+  if (!result.correct) {
+    return result.data;
   }
-  return result;
+  return result.data;
 }
 
 module.exports = {

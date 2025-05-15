@@ -20,7 +20,10 @@ async function makeRequest(method, url, params = {}, body = null) {
       data: body && method.toLowerCase() !== 'get' ? body : undefined
     };
     const response = await axios(config);
-    return response.data;
+    return {
+      correct: true,
+      data: response.data
+    };
   } catch (error) {
     console.error('API Request Error:', {
       method, url,
@@ -28,7 +31,10 @@ async function makeRequest(method, url, params = {}, body = null) {
       error: error.message,
       response: error.response?.data
     });
-    return false;
+    return {
+      correct: false,
+      data: error.response?.data || { message: error.message }
+    };
   }
 }
 
