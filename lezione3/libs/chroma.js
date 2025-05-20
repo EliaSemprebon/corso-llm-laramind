@@ -1,33 +1,52 @@
-
 import utils from './utils.js';
-import {ChromaClient, OpenAIEmbeddingFunction} from 'chromadb';
+import { ChromaClient, OpenAIEmbeddingFunction } from 'chromadb';
 
-const chroma = new ChromaClient({
-    path: process.env.CHROMA_PATH,
-    auth: { provider: "basic", credentials: process.env.CHROMA_CREDENTIALS }
-});
+const COLLECTION_NAME = "corso-llm-laramind";
 
+/**
+ * Creates an OpenAI embedding function instance
+ * @returns {OpenAIEmbeddingFunction} The configured embedding function
+ */
+function createEmbedder() {
+    return new OpenAIEmbeddingFunction({
+        openai_api_key: process.env.OPENAI_API_KEY,
+        openai_model: 'text-embedding-3-large'
+    });
+}
+
+/**
+ * Service class for interacting with ChromaDB
+ * Handles vector storage and retrieval of documents
+ */
 class ChromaService {
+    constructor() {
+        this.client = new ChromaClient({
+            path: process.env.CHROMA_PATH,
+            auth: { 
+                provider: "basic", 
+                credentials: process.env.CHROMA_CREDENTIALS 
+            }
+        });
+    }
 
+    /**
+     * Initializes the ChromaDB collection
+     * Creates a new collection if it doesn't exist
+     * @returns {Promise<boolean>} True if initialization was successful
+     */
     async start() {
         try {
-            const embedder = new OpenAIEmbeddingFunction({
-                openai_api_key: process.env.OPENAI_API_KEY,
-                openai_model: 'text-embedding-3-large'
-            });
-            const collection = await chroma.getCollection({
-                name: "corso-llm-laramind",
+            const embedder = createEmbedder();
+            const collection = await this.client.getCollection({
+                name: COLLECTION_NAME,
                 embeddingFunction: embedder
             });
             console.log(await collection.count());
             return true;
         } catch(err) {
-            const embedder = new OpenAIEmbeddingFunction({
-                openai_api_key: process.env.OPENAI_API_KEY,
-                openai_model: 'text-embedding-3-large'
-            });
-            await chroma.createCollection({
-                name: "corso-llm-laramind",
+            const embedder = createEmbedder();
+            await this.client.createCollection({
+                name: COLLECTION_NAME,
                 embeddingFunction: embedder,
                 metadata: { "hnsw:space": "cosine" }
             });
@@ -35,96 +54,96 @@ class ChromaService {
         }
     }
 
-    async train(trainingId, categoryId, content) {
+    /**
+     * Adds new content to the collection with specified category
+     * @param {string} categoryId - The category identifier for the content
+     * @param {string} content - The content to store
+     * @returns {Promise<boolean>} True if content was added successfully
+     */
+    async train(categoryId, content) {
         try {
-            //carico la collection
-            const embedder = new OpenAIEmbeddingFunction({
-                openai_api_key: process.env.OPENAI_API_KEY,
-                openai_model: 'text-embedding-3-large'
-            });
-            const collection = await chroma.getCollection({
-                name: "corso-llm-laramind",
+            const embedder = createEmbedder();
+            const collection = await this.client.getCollection({
+                name: COLLECTION_NAME,
                 embeddingFunction: embedder
             });
-            //preparo i dati
-            const random = utils.getRandomName(5);
-            const metadatas = [], documents = [], ids = [];
-            documents.push(content);
-            const id = trainingId + '-' + random;
-            const tokens = utils.contTokens(content);
-            metadatas.push({
-                trainingId, categoryId, tokens, id
-            });
-            ids.push(id);
-            //aggiungo i dati
+
+            // Prepare data for insertion
+            const id = utils.getId();
+            const tokens = utils.conTokens(content);
+            const metadatas = [{ categoryId, tokens, id }];
+            const documents = [content];
+            const ids = [id];
+
+            // Add data to collection
             const results = await collection.add({
-                ids:ids,
-                metadatas: metadatas,
-                documents: documents
+                ids,
+                metadatas,
+                documents
             });
-            if(results.error) return false;
-            //correct
-            return true;
+
+            return !results.error;
         } catch(e) {
+            console.error('Error in train:', e);
             return false;
         }
     }
 
-    async read(phrases) {
+    /**
+     * Queries the collection for similar content
+     * @param {string[]} contents - Array of query texts to search for
+     * @returns {Promise<Array<{pageContent: string, metadata: Object}>>} Array of matching documents with metadata
+     */
+    async read(contents) {
         try {
-            //carico la collection
-            const embedder = new OpenAIEmbeddingFunction({
-                openai_api_key: process.env.OPENAI_API_KEY,
-                openai_model: 'text-embedding-3-large'
-            });
-            const collection = await chroma.getCollection({
-                name: "corso-llm-laramind",
+            const embedder = createEmbedder();
+            const collection = await this.client.getCollection({
+                name: COLLECTION_NAME,
                 embeddingFunction: embedder
             });
-            //cerco i dati
+
+            // Query for similar content
             const results = await collection.query({
-                nResults: 30, queryTexts:phrases
+                nResults: 5,
+                queryTexts: contents
             });
-            if(results.error) return false;
-            //elaboro la risposta
-            const contents = results.documents[0];
+
+            if (results.error) return false;
+
+            // Format response data
+            const documents = results.documents[0];
             const metadatas = results.metadatas[0];
-            const data = [];
-            for(let index in contents) {
-                data.push({
-                    pageContent:contents[index],
-                    metadata:metadatas[index]
-                });
-            }
-            //correct
-            return data;
+            
+            return documents.map((pageContent, index) => ({
+                pageContent,
+                metadata: metadatas[index]
+            }));
         } catch(e) {
+            console.error('Error in read:', e);
             return false;
         }
     }
 
+    /**
+     * Deletes documents from the collection based on where clause
+     * @param {Object} where - The filter criteria for deletion
+     * @returns {Promise<boolean>} True if deletion was successful
+     */
     async delete(where) {
         try {
-            //carico la collection
-            const embedder = new OpenAIEmbeddingFunction({
-                openai_api_key: process.env.OPENAI_API_KEY,
-                openai_model: 'text-embedding-3-large'
-            });
-            const collection = await chroma.getCollection({
-                name: "corso-llm-laramind",
+            const embedder = createEmbedder();
+            const collection = await this.client.getCollection({
+                name: COLLECTION_NAME,
                 embeddingFunction: embedder
             });
-            //elimino i contenuti
-            await collection.delete({
-                where: where
-            });
-            //correct
+
+            await collection.delete({ where });
             return true;
         } catch(e) {
+            console.error('Error in delete:', e);
             return false;
         }
     }
-
 }
 
 export default new ChromaService();
