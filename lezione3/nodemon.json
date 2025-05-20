@@ -1,0 +1,8 @@
+{
+    "verbose": true,
+    "ignore": ["public/"],
+    "env": {
+      	"APP_ENV": "development"
+    },
+    "ext": "js"
+}
