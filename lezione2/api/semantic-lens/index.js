@@ -6,14 +6,19 @@ const router = express.Router();
 // Base system prompt for semantic analysis
 const BASE_SYSTEM_PROMPT = `Sei un assistente linguistico.
 
-Analizza il testo che ricevi come variabile {{content}}. Non rispondere direttamente. 
+Analizza il testo che ricevi come variabile <content>. Non rispondere direttamente. 
 Compila i parametri necessari per il tool "analizzaEstratto" in base al testo. 
 
 Individua:
-- Il tono generale (scegli tra: formale, informale, ironico, drammatico, neutro)
+- Il tono di voce generale (scegli tra: formale, informale, ironico, drammatico, neutro)
 - La lingua in cui è scritto il testo
-- Una lista di argomenti rilevanti (parole chiave o concetti)
-- Se si tratta o no di un testo a carattere scientifico`;
+- Una lista di argomenti rilevanti (concetti e frasi principali)
+- Se si tratta o no di un testo a carattere scientifico
+
+<content>
+{{content}}
+</content>
+`;
 
 // Tool definition for semantic analysis
 const SEMANTIC_TOOLS = [
@@ -28,11 +33,11 @@ const SEMANTIC_TOOLS = [
           "tono": {
             "type": "string",
             "enum": ["formale", "informale", "ironico", "drammatico", "neutro"],
-            "description": "Il tono predominante del testo."
+            "description": "Il tono di voce predominante del testo."
           },
           "lingua": {
             "type": "string",
-            "description": "La lingua in cui è scritto il testo."
+            "description": "La lingua in cui è scritto il testo. Usa i due caratteri unicode della lingua."
           },
           "argomenti": {
             "type": "array",
@@ -44,7 +49,7 @@ const SEMANTIC_TOOLS = [
           },
           "scientifico": {
             "type": "boolean",
-            "description": "Indica se il testo è di carattere scientifico."
+            "description": "TRUE se il testo è di carattere scientifico, altrimenti FALSE."
           }
         },
         "required": ["tono", "lingua", "argomenti", "scientifico"]
@@ -70,7 +75,7 @@ router.post('/message', async (req, res) => {
       prompt: systemPrompt,
       tools: SEMANTIC_TOOLS,
       tool_choice: 'required',
-      messages: [{ role: "user", content }]
+      messages: []
     });
 
     res.json(result);

@@ -1,4 +1,4 @@
-#Role
+# Role
 Translate the provided JSON weather data for Verona, IT, into plain language for easy understanding.
 
 ## Output Format
