@@ -1,4 +1,5 @@
 const chroma = require('../../libs/chroma.js');
+const travelDocs = require('./docs.js');
 
 /**
  * Search for travel information by country
@@ -35,11 +36,56 @@ async function searchByCountry(paese, keywords) {
  */
 async function searchByKeywords(keywords) {
   try {
-    // TODO: Implement new keywords search logic
-    // This function will be implemented with new logic
+    // Initialize travel docs if not already initialized
+    if (!travelDocs.initialized) {
+      await travelDocs.initialize();
+    }
     
-    // For now, return an empty array
-    return [];
+    // Search for keywords in the travel-keywords project
+    const where = { 
+      project: 'travel-keywords',
+      trainingType: 'keyword'
+    };
+    
+    // Join keywords into a query string
+    const query = keywords.join(' ');
+    
+    // Search in ChromaDB for keywords
+    const keywordResults = await chroma.read(query, where);
+    if (!keywordResults || keywordResults.length === 0) {
+      return [];
+    }
+    
+    // Process the results to extract content based on metadata
+    const contentResults = [];
+    
+    for (const result of keywordResults) {
+      if (result.metadata) {
+        const { categoryId, contentId } = result.metadata;
+        
+        if (categoryId && contentId) {
+          // Get the content section from the travel docs
+          const contentSection = travelDocs.getContentSection(categoryId, parseInt(contentId));
+          
+          if (contentSection) {
+            // Add the content to the results with metadata
+            contentResults.push({
+              content: contentSection,
+              metadata: {
+                country: categoryId,
+                contentId: contentId,
+                score: result.score || 0
+              }
+            });
+          }
+        }
+      }
+    }
+    
+    // Sort results by score (highest first)
+    contentResults.sort((a, b) => b.metadata.score - a.metadata.score);
+    
+    return contentResults;
   } catch (error) {
     console.error('Search by Keywords Error:', error);
     throw error;

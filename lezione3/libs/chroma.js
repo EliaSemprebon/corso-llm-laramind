@@ -1,5 +1,5 @@
-import utils from './utils.js';
-import { ChromaClient, OpenAIEmbeddingFunction } from 'chromadb';
+const utils = require('./utils');
+const { ChromaClient, OpenAIEmbeddingFunction } = require('chromadb');
 
 const COLLECTION_NAME = "corso-llm-laramind";
 
@@ -151,4 +151,4 @@ class ChromaService {
     }
 }
 
-export default new ChromaService();
+module.exports = new ChromaService();
