@@ -73,10 +73,8 @@ class ChromaService {
             const id = utils.getId();
             const tokens = utils.conTokens(content);
             const metadatas = [{
-                project,
-                tokens,
-                id,
-                ...metadata
+                project, tokens,
+                id, ...metadata
             }];
             const documents = [content];
             const ids = [id];
@@ -97,10 +95,11 @@ class ChromaService {
 
     /**
      * Queries the collection for similar content
-     * @param {string[]} contents - Array of query texts to search for
+     * @param {string[]} query - Array of query texts to search for
+     * @param {Object} where - Filter criteria for the query
      * @returns {Promise<Array<{pageContent: string, metadata: Object}>>} Array of matching documents with metadata
      */
-    async read(contents) {
+    async read(query, where = {}) {
         try {
             const embedder = createEmbedder();
             const collection = await this.client.getCollection({
@@ -110,10 +109,10 @@ class ChromaService {
 
             // Query for similar content
             const results = await collection.query({
+                where,
                 nResults: 5,
-                queryTexts: contents
+                queryTexts: query
             });
-
             if (results.error) return false;
 
             // Format response data
