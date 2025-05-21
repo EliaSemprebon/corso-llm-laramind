@@ -22,9 +22,9 @@ class ChromaService {
     constructor() {
         this.client = new ChromaClient({
             path: process.env.CHROMA_PATH,
-            auth: { 
-                provider: "basic", 
-                credentials: process.env.CHROMA_CREDENTIALS 
+            auth: {
+                provider: "basic",
+                credentials: process.env.CHROMA_CREDENTIALS
             }
         });
     }
