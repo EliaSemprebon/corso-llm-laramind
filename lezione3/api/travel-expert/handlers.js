@@ -41,9 +41,9 @@ async function searchByKeywords(keywords) {
       await travelDocs.initialize();
     }
     
-    // Search for keywords in the travel-keywords project
+    // Search for keywords in the travel-expert project
     const where = { 
-      project: 'travel-keywords',
+      project: 'travel-expert',
       trainingType: 'keyword'
     };
     

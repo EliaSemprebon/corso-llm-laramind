@@ -8,6 +8,7 @@ async function trainTravelExpert() {
   try {
     // Delete existing embeddings for travel-expert project
     await chroma.delete({ project: 'travel-expert' });
+    await chroma.delete({ project: 'travel-keywords' });
     
     // Read all MD files from docs/travel directory
     const travelDir = path.join(process.cwd(), 'docs', 'travel');
@@ -63,8 +64,6 @@ async function trainTravelExpert() {
 
 async function trainTravelKeywords() {
   try {
-    // Delete existing embeddings for travel-keywords project
-    await chroma.delete({ project: 'travel-keywords' });
     
     // Load keywords.json
     const keywordsPath = path.join(process.cwd(), 'docs', 'travel', 'keywords.json');
@@ -110,13 +109,13 @@ async function trainTravelKeywords() {
       // Train chunk in parallel
       const results = await Promise.all(
         chunk.map(data => 
-          chroma.train('travel-keywords', data.content, data.metadata)
+          chroma.train('travel-expert', data.content, data.metadata)
         )
       );
 
       // If any in this chunk failed, delete everything and return failure
       if (results.includes(false)) {
-        await chroma.delete({ project: 'travel-keywords' });
+        await chroma.delete({ project: 'travel-expert' });
         return { success: false };
       }
     }
