@@ -29,6 +29,7 @@ async function faqFinder(req, res) {
     let result = null;
     let lastMessage = null;
     let usage = { prompt_tokens: 0, completion_tokens: 0, total_tokens: 0 };
+    let ragResults = [];
 
     while (true) {
       result = await createMessage({
@@ -69,6 +70,11 @@ async function faqFinder(req, res) {
             // Search in ChromaDB
             const results = await chroma.read(queries, where);
             toolResponse = results || [];
+            
+            // Save RAG results for return value
+            if (results && results.length > 0) {
+              ragResults.push(...results);
+            }
           } else {
             toolResponse = { error: `Unknown tool: ${toolCall.function.name}` };
           }
@@ -91,7 +97,8 @@ async function faqFinder(req, res) {
     return {
       message: result.message,
       tools,
-      usage
+      usage,
+      ragResults
     };
   } catch (error) {
     console.error('FAQ Finder Error:', error);

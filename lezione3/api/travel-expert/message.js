@@ -1,4 +1,3 @@
-
 const { createMessage } = require('../../libs/openai.js');
 const { MASTER_PROMPT, DOCUMENTATION_TOOL } = require('./prompts.js');
 const { searchByCountry, searchByKeywords } = require('./handlers.js');
@@ -21,6 +20,7 @@ async function travelExpert(req, res) {
     let result = null;
     let lastMessage = null;
     let usage = { prompt_tokens: 0, completion_tokens: 0, total_tokens: 0 };
+    let ragResults = [];
 
     while (true) {
       result = await createMessage({
@@ -55,9 +55,17 @@ async function travelExpert(req, res) {
             if (tipoRicerca === 'paese') {
               // Nation-specific search using the handler
               toolResponse = await searchByCountry(paese, keywords);
+              // Save RAG results for return value
+              if (toolResponse && toolResponse.length > 0) {
+                ragResults.push(...toolResponse);
+              }
             } else if (tipoRicerca === 'interessi') {
               // Keyword-based search using the handler
               toolResponse = await searchByKeywords(keywords);
+              // Save RAG results for return value
+              if (toolResponse && toolResponse.length > 0) {
+                ragResults.push(...toolResponse);
+              }
             } else {
               toolResponse = { error: `Invalid search type: ${tipoRicerca}` };
             }
@@ -83,7 +91,8 @@ async function travelExpert(req, res) {
     return {
       message: result.message,
       tools,
-      usage
+      usage,
+      ragResults
     };
   } catch (error) {
     console.error('Travel Expert Error:', error);
