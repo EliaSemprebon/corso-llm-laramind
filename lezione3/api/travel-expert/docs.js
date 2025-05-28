@@ -39,7 +39,6 @@ class TravelDocs {
       }
       
       this.initialized = true;
-      console.log('Travel docs initialized with countries:', Object.keys(this.docsCache));
     } catch (error) {
       console.error('Error initializing travel docs:', error);
       throw error;

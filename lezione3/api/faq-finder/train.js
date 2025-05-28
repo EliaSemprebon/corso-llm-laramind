@@ -47,6 +47,8 @@ async function trainFaqFinder() {
       }
     }
 
+    console.log('Total FAQs to train:', trainData.length);
+
     // Train all data in parallel
     const results = await Promise.all(
       trainData.map(data => 
@@ -61,6 +63,7 @@ async function trainFaqFinder() {
       return { success: false };
     }
     
+    console.log('FAQs training ok');
     return { success: true };
   } catch (error) {
     console.error('FAQ Finder Train Error:', error);

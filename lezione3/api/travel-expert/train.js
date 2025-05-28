@@ -41,12 +41,15 @@ async function trainTravelExpert() {
       }
     }
 
+    console.log('Total contents to train:', trainData.length);
+
     // Train all data in parallel
     const results = await Promise.all(
       trainData.map(data => 
         chroma.train('travel-expert', data.content, data.metadata)
       )
     );
+    console.log('Contents training ok');
 
     // Check if any training failed
     if (results.includes(false)) {
@@ -96,14 +99,15 @@ async function trainTravelKeywords() {
 
     console.log('Total keywords to train:', trainData.length);
     
-    // Split trainData into chunks of 10
-    const chunkSize = 10;
+    // Split trainData into chunks of 50
+    const chunkSize = 50
     const chunks = [];
     for (let i = 0; i < trainData.length; i += chunkSize) {
       chunks.push(trainData.slice(i, i + chunkSize));
     }
-    console.log('Processing', chunks.length, 'chunks of', chunkSize, 'keywords each');
     
+    console.log(`Processing ${chunks.length} chunks of ${chunkSize} elements`);
+
     // Process each chunk
     for (const chunk of chunks) {
       // Train chunk in parallel
@@ -119,6 +123,7 @@ async function trainTravelKeywords() {
         return { success: false };
       }
     }
+    console.log('Keywords training ok');
     
     return { success: true };
   } catch (error) {

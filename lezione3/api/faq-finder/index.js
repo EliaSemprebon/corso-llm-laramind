@@ -24,6 +24,18 @@ router.post('/train', async (req, res) => {
   }
 });
 
+router.delete('/delete', async (req, res) => {
+  try {
+    const result = await chroma.delete({ project: 'faq-finder' });
+    if (!result) {
+      return res.status(500).json({ error: 'Delete operation failed' });
+    }
+    res.json({ message: 'Data deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 router.get('/search', async (req, res) => {
   try {
     const { query } = req.query;
