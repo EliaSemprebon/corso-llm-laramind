@@ -86,28 +86,39 @@ async function trainTravelKeywords() {
           trainData.push({
             content: keyword,
             metadata: {
-              categoryId: lang,
-              trainingType: 'keyword',
               lang: lang,
-              contentId: contentId
+              contentId: contentId,
+              trainingType: 'keyword'
             }
           });
         }
       }
     }
 
-    // Train all keywords in parallel
-    const results = await Promise.all(
-      trainData.map(data => 
-        chroma.train('travel-keywords', data.content, data.metadata)
-      )
-    );
+    console.log('Total keywords to train:', trainData.length);
+    
+    // Split trainData into chunks of 10
+    const chunkSize = 10;
+    const chunks = [];
+    for (let i = 0; i < trainData.length; i += chunkSize) {
+      chunks.push(trainData.slice(i, i + chunkSize));
+    }
+    console.log('Processing', chunks.length, 'chunks of', chunkSize, 'keywords each');
+    
+    // Process each chunk
+    for (const chunk of chunks) {
+      // Train chunk in parallel
+      const results = await Promise.all(
+        chunk.map(data => 
+          chroma.train('travel-keywords', data.content, data.metadata)
+        )
+      );
 
-    // Check if any training failed
-    if (results.includes(false)) {
-      // If any failed, delete everything and return failure
-      await chroma.delete({ project: 'travel-keywords' });
-      return { success: false };
+      // If any in this chunk failed, delete everything and return failure
+      if (results.includes(false)) {
+        await chroma.delete({ project: 'travel-keywords' });
+        return { success: false };
+      }
     }
     
     return { success: true };
