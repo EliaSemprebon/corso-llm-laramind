@@ -17,30 +17,48 @@ async function trainFaqFinder() {
     const faqsDir = path.join(process.cwd(), 'docs', 'faqs');
     const files = await fs.readdir(faqsDir);
     
+    // Collect all training data
+    const trainData = [];
+    
+    // Scorro i files
     for (const file of files) {
       if (!file.endsWith('.md')) continue;
       
       // Read and process each MD file
       const content = await fs.readFile(path.join(faqsDir, file), 'utf8');
-      const lines = content.split('\n');
-      lines.shift(); // Skip first line
-      const remainingContent = lines.join('\n');
       
       // Split content at --- delimiter
-      const splits = utils.splitText(remainingContent);
+      const splits = utils.splitText(content).slice(1);
       
-      // Store each split in ChromaDB
+      // Collect training data
       for (const split of splits) {
         if (split.trim()) { // Only store non-empty splits
           const category = categories.find(c => c.filename === file);
           if (category) {
-            await chroma.train('faq-finder', {
-              categoryId: category.id.toString(),
-              trainingType: 'content'
-            }, split);
+            trainData.push({
+              content: split,
+              metadata: {
+                categoryId: category.id.toString(),
+                trainingType: 'content'
+              }
+            });
           }
         }
       }
+    }
+
+    // Train all data in parallel
+    const results = await Promise.all(
+      trainData.map(data => 
+        chroma.train('faq-finder', data.content, data.metadata)
+      )
+    );
+
+    // Check if any training failed
+    if (results.includes(false)) {
+      // If any failed, delete everything and return failure
+      await chroma.delete({ project: 'faq-finder' });
+      return { success: false };
     }
     
     return { success: true };

@@ -8,6 +8,7 @@ async function trainTravelExpert() {
   try {
     // Delete existing embeddings for travel-expert project
     await chroma.delete({ project: 'travel-expert' });
+    return { success: true };
     
     // Read all MD files from docs/travel directory
     const travelDir = path.join(process.cwd(), 'docs', 'travel');

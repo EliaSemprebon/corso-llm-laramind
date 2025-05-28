@@ -41,7 +41,7 @@ class ChromaService {
                 name: COLLECTION_NAME,
                 embeddingFunction: embedder
             });
-            console.log(await collection.count());
+            console.log('CONT EMBEDDINGS', await collection.count());
             return true;
         } catch(err) {
             const embedder = createEmbedder();
@@ -61,7 +61,7 @@ class ChromaService {
      * @param {string} content - The content to store
      * @returns {Promise<boolean>} True if content was added successfully
      */
-    async train(project, metadata, content) {
+    async train(project, content, metadata) {
         try {
             const embedder = createEmbedder();
             const collection = await this.client.getCollection({
