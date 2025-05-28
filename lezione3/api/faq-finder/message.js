@@ -21,8 +21,8 @@ async function faqFinder(req, res) {
     const categories = JSON.parse(await fs.readFile(categoriesPath, 'utf8'));
     const categoriesText = utils.contextCategory(categories);
     
-    // Replace the {{cats}} placeholder with the formatted categories
-    const systemPrompt = MASTER_PROMPT.replace('{{cats}}', categoriesText);
+    // Replace the {{categories}} placeholder with the formatted categories
+    const systemPrompt = MASTER_PROMPT.replace('{{categories}}', categoriesText);
 
     let conversation = [...messages];
     let tools = [];
@@ -56,18 +56,18 @@ async function faqFinder(req, res) {
           tools.push(toolCall);
           
           let toolResponse = null;
-          if (toolCall.function.name === 'cercaDocumentazione') {
+          if (toolCall.function.name === 'cercaFAQ') {
             // Extract query and categories from the tool call
-            const { query, categorie } = args;
+            const { queries, categories } = args;
             
             // Prepare where clause for ChromaDB
             const where = { project: 'faq-finder' };
-            if (categorie && categorie.length > 0) {
-              where.categoryId = { $in: categorie.map(id => id.toString()) };
+            if (categories && categories.length > 0) {
+              where.categoryId = { $in: categories.map(id => id.toString()) };
             }
             
             // Search in ChromaDB
-            const results = await chroma.read(query);
+            const results = await chroma.read(queries, where);
             toolResponse = results || [];
           } else {
             toolResponse = { error: `Unknown tool: ${toolCall.function.name}` };

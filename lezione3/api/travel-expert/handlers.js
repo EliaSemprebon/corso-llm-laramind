@@ -21,7 +21,7 @@ async function searchByCountry(paese, keywords) {
     const query = keywords.join(' ');
     
     // Search in ChromaDB with nation filter
-    const results = await chroma.read(query, where);
+    const results = await chroma.read([query], where);
     return results || [];
   } catch (error) {
     console.error('Search by Country Error:', error);
@@ -51,7 +51,7 @@ async function searchByKeywords(keywords) {
     const query = keywords.join(' ');
     
     // Search in ChromaDB for keywords
-    const keywordResults = await chroma.read(query, where);
+    const keywordResults = await chroma.read([query], where);
     if (!keywordResults || keywordResults.length === 0) {
       return [];
     }
