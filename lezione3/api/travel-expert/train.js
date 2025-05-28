@@ -8,34 +8,50 @@ async function trainTravelExpert() {
   try {
     // Delete existing embeddings for travel-expert project
     await chroma.delete({ project: 'travel-expert' });
-    return { success: true };
     
     // Read all MD files from docs/travel directory
     const travelDir = path.join(process.cwd(), 'docs', 'travel');
     const files = await fs.readdir(travelDir);
+    
+    // Collect all training data
+    const trainData = [];
     
     for (const file of files) {
       if (!file.endsWith('.md')) continue;
       
       // Read and process each MD file
       const content = await fs.readFile(path.join(travelDir, file), 'utf8');
-      const lines = content.split('\n');
-      lines.shift(); // Skip first line
-      const remainingContent = lines.join('\n');
       
       // Split content at --- delimiter
-      const splits = utils.splitText(remainingContent);
+      const splits = utils.splitText(content).slice(1);
       
-      // Store each split in ChromaDB
+      // Collect training data
       for (const split of splits) {
         if (split.trim()) { // Only store non-empty splits
           const categoryId = path.basename(file, '.md').toUpperCase();
-          await chroma.train('travel-expert', {
-            categoryId,
-            trainingType: 'content'
-          }, split);
+          trainData.push({
+            content: split,
+            metadata: {
+              categoryId,
+              trainingType: 'content'
+            }
+          });
         }
       }
+    }
+
+    // Train all data in parallel
+    const results = await Promise.all(
+      trainData.map(data => 
+        chroma.train('travel-expert', data.content, data.metadata)
+      )
+    );
+
+    // Check if any training failed
+    if (results.includes(false)) {
+      // If any failed, delete everything and return failure
+      await chroma.delete({ project: 'travel-expert' });
+      return { success: false };
     }
     
     return { success: true };
@@ -54,6 +70,9 @@ async function trainTravelKeywords() {
     const keywordsPath = path.join(process.cwd(), 'docs', 'travel', 'keywords.json');
     const keywords = JSON.parse(await fs.readFile(keywordsPath, 'utf8'));
     
+    // Collect all training data
+    const trainData = [];
+    
     // Process each country's keywords
     for (const countryData of keywords) {
       const lang = countryData.country; // e.g. "IT", "FR", etc.
@@ -62,16 +81,33 @@ async function trainTravelKeywords() {
       for (const content of countryData.contents) {
         const contentId = content.id;
         
-        // Train each individual keyword
+        // Collect each keyword's training data
         for (const keyword of content.keywords) {
-          await chroma.train('travel-keywords', {
-            categoryId: lang,
-            trainingType: 'keyword',
-            lang: lang,
-            contentId: contentId
-          }, keyword);
+          trainData.push({
+            content: keyword,
+            metadata: {
+              categoryId: lang,
+              trainingType: 'keyword',
+              lang: lang,
+              contentId: contentId
+            }
+          });
         }
       }
+    }
+
+    // Train all keywords in parallel
+    const results = await Promise.all(
+      trainData.map(data => 
+        chroma.train('travel-keywords', data.content, data.metadata)
+      )
+    );
+
+    // Check if any training failed
+    if (results.includes(false)) {
+      // If any failed, delete everything and return failure
+      await chroma.delete({ project: 'travel-keywords' });
+      return { success: false };
     }
     
     return { success: true };
