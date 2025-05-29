@@ -40,7 +40,12 @@ async function createMessage({ prompt, tools, tool_choice, messages }) {
       message: {
         role: 'assistant',
         content: response.content,
-        tool_calls: response.tool_calls
+        tool_calls: response.tool_calls ? response.tool_calls.map(tc => ({
+          id: tc.id,
+          name: tc.name,
+          args: tc.args,
+          type: tc.type || 'tool_call'
+        })) : undefined
       },
       usage: response.usage_metadata || {
         prompt_tokens: 0,

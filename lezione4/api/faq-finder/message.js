@@ -7,7 +7,7 @@ const claudeLib = require('../../libs/claude.js');
 
 // Select the appropriate LLM library
 const LLM = 'openai'; // Can be 'openai' or 'claude'
-const { createMessage } = LLM === 'openai' ? openaiLib : claudeLib;
+const { createMessage } = LLM === 'claude' ? openaiLib : claudeLib;
 const { MASTER_PROMPT, DOCUMENTATION_TOOL } = require('./prompts.js');
 
 async function faqFinder(req, res) {
@@ -36,8 +36,6 @@ async function faqFinder(req, res) {
     let ragResults = [];
 
     while (true) {
-      console.log('CICLO')
-      console.log(conversation)
       result = await createMessage({
         prompt: systemPrompt,
         tools: [DOCUMENTATION_TOOL],
@@ -59,7 +57,6 @@ async function faqFinder(req, res) {
 
         // Process all tool calls
         for (const toolCall of lastMessage.tool_calls) {
-          console.log(toolCall);
           const args = toolCall.args;
           tools.push(toolCall);
           
