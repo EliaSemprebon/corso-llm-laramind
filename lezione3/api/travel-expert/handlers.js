@@ -51,15 +51,12 @@ async function searchByKeywords(keywords) {
       ]
     };
     
-    // Join keywords into a query string
-    const query = keywords.join(' ');
-    
     // Search in ChromaDB for keywords
-    const keywordResults = await chroma.read([query], where);
-    console.log('ECCOMI', keywordResults)
+    const keywordResults = await chroma.read(keywords, where);
     if (!keywordResults || keywordResults.length === 0) {
       return [];
     }
+    console.log(keywordResults)
     
     // Process the results to extract content based on metadata
     const contentResults = [];

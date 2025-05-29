@@ -1,4 +1,4 @@
-const { OpenAIEmbeddings } = require('@langchain/openai');
+
 const { ChatOpenAI } = require('@langchain/openai');
 const { convertToLangchainMessages } = require('./utils');
 
@@ -8,21 +8,6 @@ const chatModel = new ChatOpenAI({
   modelName: "gpt-4.1-mini",
   temperature: 0
 });
-
-const embeddings = new OpenAIEmbeddings({
-  modelName: "text-embedding-3-large"
-});
-
-async function createEmbedding(content) {
-  try {
-    const input = Array.isArray(content) ? content : [content];
-    const embeddings_array = await embeddings.embedDocuments(input);
-    return embeddings_array;
-  } catch (error) {
-    console.error('OpenAI Embedding Error:', error);
-    throw error;
-  }
-}
 
 async function createMessage({ prompt, tools, tool_choice, messages }) {
   try {
@@ -40,18 +25,9 @@ async function createMessage({ prompt, tools, tool_choice, messages }) {
       message: {
         role: 'assistant',
         content: response.content,
-        tool_calls: response.tool_calls ? response.tool_calls.map(tc => ({
-          id: tc.id,
-          name: tc.name,
-          args: tc.args,
-          type: tc.type || 'tool_call'
-        })) : undefined
+        tool_calls: response.tool_calls
       },
-      usage: response.usage_metadata || {
-        prompt_tokens: 0,
-        completion_tokens: 0,
-        total_tokens: 0
-      }
+      usage: response.usage_metadata
     };
 
     return formattedResponse;
@@ -62,6 +38,5 @@ async function createMessage({ prompt, tools, tool_choice, messages }) {
 }
 
 module.exports = {
-  createMessage,
-  createEmbedding
+  createMessage
 };

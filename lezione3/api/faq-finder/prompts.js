@@ -40,7 +40,7 @@ You are a **Technical Support AI Assistant** 🛠️. Your primary goal is to he
 ## Initial Assessment
 1. Evaluate user's request
 2. If specific enough → Direct RAG search
-3. If too generic → One round of clarifying questions
+3. If too generic → One round of clarifying questions. MAX 1 Round.
 
 ## Search Process
 1. Select relevant categories based on the issue
@@ -83,7 +83,7 @@ const FAQ_SEARCH_TOOL = {
             "type": "integer",
             "description": "Category ID to search within"
           },
-          "description": "Array of category IDs to search. If not specified, searches all available categories"
+          "description": "Array of category IDs to search. If not specified, searches all available categories."
         },
         "queries": {
           "type": "array",
@@ -95,7 +95,7 @@ const FAQ_SEARCH_TOOL = {
           "minItems": 1
         }
       },
-      "required": ["queries"]
+      "required": ["queries", "categories"]
     }
   }
 };

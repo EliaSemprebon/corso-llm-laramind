@@ -7,7 +7,7 @@ const claudeLib = require('../../libs/claude.js');
 
 // Select the appropriate LLM library
 const LLM = 'openai'; // Can be 'openai' or 'claude'
-const { createMessage } = LLM === 'claude' ? openaiLib : claudeLib;
+const { createMessage } = LLM === 'claude' ? claudeLib : openaiLib;
 const { MASTER_PROMPT, DOCUMENTATION_TOOL } = require('./prompts.js');
 
 async function faqFinder(req, res) {

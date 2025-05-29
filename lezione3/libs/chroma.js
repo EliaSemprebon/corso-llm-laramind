@@ -79,6 +79,7 @@ class ChromaService {
             const documents = [content];
             const ids = [id];
 
+            //caricamento multiplo
             // Add data to collection
             const results = await collection.add({
                 ids,
@@ -118,9 +119,11 @@ class ChromaService {
             // Format response data
             const documents = results.documents[0];
             const metadatas = results.metadatas[0];
+            const distances = results.distances[0];
             
             return documents.map((pageContent, index) => ({
                 pageContent,
+                distances: distances[index],
                 metadata: metadatas[index]
             }));
         } catch(e) {
