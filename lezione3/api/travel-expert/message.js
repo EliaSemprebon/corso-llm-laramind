@@ -54,17 +54,19 @@ async function travelExpert(req, res) {
             
             if (tipoRicerca === 'paese') {
               // Nation-specific search using the handler
-              toolResponse = await searchByCountry(paese, keywords);
+              ragResults = await searchByCountry(paese, keywords);
               // Save RAG results for return value
-              if (toolResponse && toolResponse.length > 0) {
-                ragResults.push(...toolResponse);
+              if (ragResults && ragResults.length > 0) {
+                const formattedResult = ragResults.map(doc => doc.pageContent).join('\n---\n');
+                toolResponse = formattedResult;
               }
             } else if (tipoRicerca === 'interessi') {
               // Keyword-based search using the handler
-              toolResponse = await searchByKeywords(keywords);
+              ragResults = await searchByKeywords(keywords);
               // Save RAG results for return value
-              if (toolResponse && toolResponse.length > 0) {
-                ragResults.push(...toolResponse);
+              if (ragResults && ragResults.length > 0) {
+                const formattedResult = ragResults.map(doc => doc.content).join('\n---\n');
+                toolResponse = formattedResult;
               }
             } else {
               toolResponse = { error: `Invalid search type: ${tipoRicerca}` };

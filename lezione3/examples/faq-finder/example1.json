@@ -1,0 +1,10 @@
+{
+    "messages":[
+        {"role":"user", "content":"ho bisogno di aiuto"},
+        {
+            "role": "assistant",
+            "content": "La tua richiesta è troppo generica per poterti aiutare con precisione. Per poterti supportare al meglio, potresti indicarmi:\n\n1. Qual è il tipo di problema che stai riscontrando? (Software, elettrico, rete, calibrazione…)\n2. Quali sono i sintomi specifici o i messaggi di errore?\n3. Qual è il modello del dispositivo o sistema coinvolto?\n4. Quando e in che contesto si verifica esattamente il problema?\n\nQueste informazioni mi permetteranno di cercare nella documentazione tecnica la soluzione più adatta."
+        },
+        {"role":"user", "content":"il dispositivo non prende l'ip dal wifi"}
+    ]
+}

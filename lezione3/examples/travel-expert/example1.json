@@ -1,0 +1,10 @@
+{
+    "messages":[
+        {"role":"user", "content":"voglio organizzare una vacanza"},
+            {
+            "role": "assistant",
+            "content": "Grazie per il tuo interesse a organizzare una vacanza! 😊 Per poterti aiutare al meglio, potresti dirmi qualche dettaglio in più?\n\n- Quali sono i paesi europei di tuo interesse? (Italia, Francia, Germania, Spagna, Grecia, Svizzera)\n- Che tipo di esperienza desideri? (culturale, natura, gastronomia, relax, avventura, altro)\n- Hai preferenze su città o regioni specifiche?\n- Qual è la durata indicativa del viaggio?\n- Hai un budget o una stagione preferita?\n\nCon queste informazioni potrò suggerirti destinazioni o itinerari perfetti per te! 🏖️🏛️🍷"
+        },
+        {"role":"user", "content":"sto cercando qualcosa di folkoristico con feste locali e cibo locale."}
+    ]
+}

@@ -11,10 +11,12 @@ async function searchByCountry(paese, keywords) {
   try {
     // Nation-specific search
     // Filter RAG results by the specified nation
-    const where = { 
-      project: 'travel-expert',
-      categoryId: paese,
-      trainingType: 'content'
+    const where = {
+      $and: [
+        { project: 'travel-expert' },
+        { categoryId: paese },
+        { trainingType: 'content' }
+      ]
     };
     
     // Join keywords into a query string
@@ -25,7 +27,7 @@ async function searchByCountry(paese, keywords) {
     return results || [];
   } catch (error) {
     console.error('Search by Country Error:', error);
-    throw error;
+    return false
   }
 }
 
@@ -42,9 +44,11 @@ async function searchByKeywords(keywords) {
     }
     
     // Search for keywords in the travel-expert project
-    const where = { 
-      project: 'travel-expert',
-      trainingType: 'keyword'
+    const where = {
+      $and: [
+        { project: 'travel-expert' },
+        { trainingType: 'keyword' }
+      ]
     };
     
     // Join keywords into a query string
@@ -52,6 +56,7 @@ async function searchByKeywords(keywords) {
     
     // Search in ChromaDB for keywords
     const keywordResults = await chroma.read([query], where);
+    console.log('ECCOMI', keywordResults)
     if (!keywordResults || keywordResults.length === 0) {
       return [];
     }
@@ -61,20 +66,19 @@ async function searchByKeywords(keywords) {
     
     for (const result of keywordResults) {
       if (result.metadata) {
-        const { categoryId, contentId } = result.metadata;
+        const { lang, contentId } = result.metadata;
         
-        if (categoryId && contentId) {
+        if (lang && contentId) {
           // Get the content section from the travel docs
-          const contentSection = travelDocs.getContentSection(categoryId, parseInt(contentId));
+          const contentSection = travelDocs.getContentSection(lang, parseInt(contentId));
           
           if (contentSection) {
             // Add the content to the results with metadata
             contentResults.push({
               content: contentSection,
               metadata: {
-                country: categoryId,
-                contentId: contentId,
-                score: result.score || 0
+                country: lang,
+                contentId: contentId
               }
             });
           }
@@ -82,13 +86,10 @@ async function searchByKeywords(keywords) {
       }
     }
     
-    // Sort results by score (highest first)
-    contentResults.sort((a, b) => b.metadata.score - a.metadata.score);
-    
     return contentResults;
   } catch (error) {
     console.error('Search by Keywords Error:', error);
-    throw error;
+    return false
   }
 }
 
