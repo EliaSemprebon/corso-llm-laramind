@@ -6,7 +6,7 @@ const { trainTravelExpert, trainTravelKeywords } = require('./train.js');
 
 const router = express.Router();
 
-router.post('/travel', async (req, res) => {
+router.post('/message', async (req, res) => {
   try {
     const result = await travelExpert(req, res);
     res.json(result);

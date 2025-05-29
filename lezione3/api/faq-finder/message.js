@@ -62,19 +62,25 @@ async function faqFinder(req, res) {
             const { queries, categories } = args;
             
             // Prepare where clause for ChromaDB
-            const where = { project: 'faq-finder' };
+            let where = { project: 'faq-finder' };
             if (categories && categories.length > 0) {
-              where.categoryId = { $in: categories.map(id => id.toString()) };
+              where = {
+                $and: [
+                  { project: 'faq-finder' },
+                  { categoryId: categories[0].toString() }
+                ]
+              };
             }
             
             // Search in ChromaDB
             const results = await chroma.read(queries, where);
-            toolResponse = results || [];
-            
-            // Save RAG results for return value
+            // Format RAG results into a string
             if (results && results.length > 0) {
-              ragResults.push(...results);
+              const formattedResult = results.map(doc => doc.pageContent).join('\n---\n');
+              toolResponse = formattedResult;
             }
+            ragResults = results || [];
+            
           } else {
             toolResponse = { error: `Unknown tool: ${toolCall.function.name}` };
           }

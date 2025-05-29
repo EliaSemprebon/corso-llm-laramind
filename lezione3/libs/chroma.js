@@ -113,7 +113,6 @@ class ChromaService {
                 nResults: 5,
                 queryTexts: query
             });
-            console.log(results);
             if (results.error) return false;
 
             // Format response data

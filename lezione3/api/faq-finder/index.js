@@ -6,7 +6,7 @@ const { trainFaqFinder } = require('./train.js');
 
 const router = express.Router();
 
-router.post('/faq', async (req, res) => {
+router.post('/message', async (req, res) => {
   try {
     const result = await faqFinder(req, res);
     res.json(result);
