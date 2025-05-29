@@ -1,5 +1,4 @@
 require('dotenv').config();
-const chroma = require('./libs/chroma');
 
 const morgan = require('morgan');
 const express = require('express');
@@ -13,6 +12,5 @@ app.use(express.json());
 app.use('/api', routes);
 
 app.listen(port, async () => {
-  await chroma.start();
   console.log(`Server running at http://localhost:${port}`);
 });

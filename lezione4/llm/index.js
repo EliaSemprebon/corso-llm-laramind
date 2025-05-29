@@ -1,12 +1,12 @@
-import { getModel as getOpenAIModel } from "./openai.js";
-import { getModel as getClaudeModel } from "./claude.js";
+const { getModel: getOpenAIModel } = require('./openai.js');
+const { getModel: getClaudeModel } = require('./claude.js');
 
-function getModel(type, tools, apiKey) {
+function getModel(type, tools) {
     switch (type) {
         case "openai":
-            return getOpenAIModel(tools, apiKey);
+            return getOpenAIModel(tools);
         case "claude":
-            return getClaudeModel(tools, apiKey);
+            return getClaudeModel(tools);
         default:
             return null;
     }
@@ -28,4 +28,4 @@ async function createMessage({ model, prompt, messages }) {
   }
 }
 
-export { getModel, createMessage };
+module.exports = { getModel, createMessage };

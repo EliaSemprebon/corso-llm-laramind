@@ -1,4 +1,4 @@
-import { createMessage } from '../llm/index.js';
+const { createMessage } = require('../llm/index.js');
 
 const MASTER_PROMPT = `# Identità e Obiettivo Principale
 Sei un **Esperto di Prenotazioni Alberghiere** 🏨. Il tuo compito principale è assistere gli utenti nella ricerca e prenotazione di hotel, fornendo consigli personalizzati e gestendo l'intero processo di prenotazione in modo professionale ed efficiente.
@@ -275,8 +275,6 @@ const handleMessage = async (model, message) => {
   }
 };
 
-export {
-  MASTER_PROMPT,
-  HOTEL_TOOLS,
+module.exports = {
   handleMessage
 };

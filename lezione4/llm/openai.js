@@ -1,12 +1,14 @@
-import { ChatOpenAI } from "@langchain/openai";
+const { ChatOpenAI } = require('@langchain/openai');
 
-export function getModel(tools, apiKey) {
+function getModel(tools) {
     const model = new ChatOpenAI({
         temperature: 0.5,
         model: "gpt-4.1-mini",
-        openAIApiKey: apiKey
+        openAIApiKey: process.env.OPENAI_API_KEY
     }).bindTools(tools, {
         parallel_tool_calls: true
     });
     return model;
 }
+
+module.exports = { getModel };
