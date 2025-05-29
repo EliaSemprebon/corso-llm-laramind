@@ -4,6 +4,7 @@ const { convertToLangchainMessages } = require('./utils');
 
 // Initialize the models
 const chatModel = new ChatOpenAI({
+  openAIApiKey: process.env.OPENAI_API_KEY,
   modelName: "gpt-4.1-mini",
   temperature: 0
 });
@@ -39,7 +40,7 @@ async function createMessage({ prompt, tools, tool_choice, messages }) {
       message: {
         role: 'assistant',
         content: response.content,
-        tool_calls: response.additional_kwargs?.tool_calls
+        tool_calls: response.tool_calls
       },
       usage: response.usage_metadata || {
         prompt_tokens: 0,

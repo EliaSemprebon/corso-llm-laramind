@@ -12,8 +12,8 @@
   "license": "ISC",
   "dependencies": {
     "@langchain/anthropic": "^0.3.21",
-    "@langchain/core": "^0.3.27",
-    "@langchain/openai": "^0.3.17",
+    "@langchain/core": "^0.3.57",
+    "@langchain/openai": "^0.5.11",
     "axios": "^1.9.0",
     "chromadb": "^1.8.1",
     "dotenv": "^16.5.0",

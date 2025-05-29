@@ -3,6 +3,7 @@ const { convertToLangchainMessages } = require('./utils');
 
 // Initialize the model
 const chatModel = new ChatAnthropic({
+  anthropicApiKey: process.env.CLAUDE_API_KEY,
   modelName: 'claude-3-5-sonnet-latest',
   temperature: 0
 });
@@ -23,7 +24,7 @@ async function createMessage({ prompt, tools, tool_choice, messages }) {
       message: {
         role: 'assistant',
         content: response.content,
-        tool_calls: response.additional_kwargs?.tool_calls
+        tool_calls: response.tool_calls
       },
       usage: response.usage_metadata || {
         prompt_tokens: 0,

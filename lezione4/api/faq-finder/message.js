@@ -2,7 +2,12 @@ const path = require('path');
 const fs = require('fs/promises');
 
 const utils = require('../../libs/utils.js');
-const { createMessage } = require('../../libs/openai.js');
+const openaiLib = require('../../libs/openai.js');
+const claudeLib = require('../../libs/claude.js');
+
+// Select the appropriate LLM library
+const LLM = 'openai'; // Can be 'openai' or 'claude'
+const { createMessage } = LLM === 'openai' ? openaiLib : claudeLib;
 const { MASTER_PROMPT, DOCUMENTATION_TOOL } = require('./prompts.js');
 
 async function faqFinder(req, res) {
@@ -31,6 +36,8 @@ async function faqFinder(req, res) {
     let ragResults = [];
 
     while (true) {
+      console.log('CICLO')
+      console.log(conversation)
       result = await createMessage({
         prompt: systemPrompt,
         tools: [DOCUMENTATION_TOOL],
@@ -52,24 +59,23 @@ async function faqFinder(req, res) {
 
         // Process all tool calls
         for (const toolCall of lastMessage.tool_calls) {
-          const args = JSON.parse(toolCall.function.arguments);
+          console.log(toolCall);
+          const args = toolCall.args;
           tools.push(toolCall);
           
           let toolResponse = null;
-          if (toolCall.function.name === 'cercaFAQ') {
+          if (toolCall.name === 'cercaFAQ') {
             // Execute the LangChain tool
-            toolResponse = await DOCUMENTATION_TOOL.call(args);
-            // Store individual FAQ entries if any results were found
-            ragResults = toolResponse === "No relevant FAQs found." ? [] : toolResponse.split('\n---\n');
+            toolResponse = await DOCUMENTATION_TOOL.invoke(args);
           } else {
-            toolResponse = { error: `Unknown tool: ${toolCall.function.name}` };
+            toolResponse = { error: `Unknown tool: ${toolCall.name}` };
           }
           
           // Save the tool response
           const replyMsg = {
             role: "tool",
+            name: toolCall.name,
             tool_call_id: toolCall.id,
-            name: toolCall.function.name,
             content: JSON.stringify(toolResponse)
           };
           tools.push(replyMsg);
@@ -88,7 +94,7 @@ async function faqFinder(req, res) {
       ragResults
     };
   } catch (error) {
-    console.error('FAQ Finder Error:', error);
+    //console.error('FAQ Finder Error:', error);
     throw error;
   }
 }
