@@ -1,0 +1,370 @@
+[
+    {
+        "country": "IT",
+        "contents": [
+          {
+            "id": 1,
+            "keywords": [
+              "Musei Vaticani e patrimonio artistico religioso",
+              "Cappella Sistina di Michelangelo a Roma",
+              "Capolavori rinascimentali agli Uffizi di Firenze",
+              "Museo Egizio di Torino e reperti faraonici",
+              "Reperti archeologici di Pompei ed Ercolano a Napoli",
+              "Musei locali di arte contemporanea ed etnografia in Italia"
+            ]
+          },
+          {
+            "id": 2,
+            "keywords": [
+              "Cucina tradizionale italiana e specialità regionali",
+              "Lasagna bolognese e pizza Margherita a Napoli",
+              "Arancini, cannoli e influenze arabe in Sicilia",
+              "Risotto al radicchio e nero di seppia in Veneto",
+              "Sagre paesane e mercati come espressione culturale"
+            ]
+          },
+          {
+            "id": 3,
+            "keywords": [
+              "Monumenti storici da Roma a Venezia",
+              "Colosseo, Pantheon e Fontana di Trevi a Roma",
+              "Canali e architetture storiche di Venezia",
+              "Ponte Vecchio e Duomo a Firenze",
+              "Trulli, Sassi e borghi antichi italiani"
+            ]
+          },
+          {
+            "id": 4,
+            "keywords": [
+              "Trekking e attività outdoor nelle Dolomiti",
+              "Escursioni alpine in Trentino e Valle d'Aosta",
+              "Sentiero degli Dei e paesaggi della Costiera Amalfitana",
+              "Escursioni sull'Etna e vulcani attivi",
+              "Parchi nazionali italiani e biodiversità"
+            ]
+          },
+          {
+            "id": 5,
+            "keywords": [
+              "Carnevale di Venezia e tradizioni folkloristiche",
+              "Festival dei Due Mondi e spettacoli a Spoleto",
+              "Salone del Mobile e cinema a Milano e Torino",
+              "Feste patronali e rievocazioni storiche italiane"
+            ]
+          },
+          {
+            "id": 6,
+            "keywords": [
+              "Vini regionali italiani e varietà autoctone",
+              "Barolo e Barbaresco in Piemonte",
+              "Chianti e Brunello di Montalcino in Toscana",
+              "Prosecco e Amarone in Veneto",
+              "Strade del vino e degustazioni enogastronomiche"
+            ]
+          },
+          {
+            "id": 7,
+            "keywords": [
+              "Patrimonio dell'Impero Romano in Italia",
+              "Foro Romano, Colosseo e Appia Antica a Roma",
+              "Rovine di Pompei ed Ercolano",
+              "Ostia Antica e archeologia portuale",
+              "Monumenti romani in Rimini, Ravenna e Verona"
+            ]
+          }
+        ]
+    },
+    {
+        "country": "FR",
+        "contents": [
+          {
+            "id": 1,
+            "keywords": [
+              "musei iconici come il Louvre e il Musée d'Orsay",
+              "opere impressioniste di Monet, Degas e Renoir",
+              "collezioni d'arte a Lione e Strasburgo",
+              "arte contemporanea e festival culturali in Francia"
+            ]
+          },
+          {
+            "id": 2,
+            "keywords": [
+              "gastronomia francese tra eleganza e territorio",
+              "piatti regionali come bouillabaisse ed escargots",
+              "croissant e pain au chocolat delle boulangerie",
+              "formaggi francesi patrimonio UNESCO"
+            ]
+          },
+          {
+            "id": 3,
+            "keywords": [
+              "Torre Eiffel e Cattedrale di Notre-Dame",
+              "Castello di Versailles e giardini geometrici",
+              "Mont Saint-Michel e abbazie mareali",
+              "castelli rinascimentali della Loira",
+              "villaggi pittoreschi come Colmar e Èze"
+            ]
+          },
+          {
+            "id": 4,
+            "keywords": [
+              "escursioni alpine a Chamonix e Pirenei",
+              "cicloturismo in Provenza e Alsazia",
+              "Parco Nazionale delle Calanques",
+              "sentieri e percorsi nella natura francese"
+            ]
+          },
+          {
+            "id": 5,
+            "keywords": [
+              "Festival di Cannes e cultura cinematografica",
+              "Festa della Musica e Notte Bianca a Parigi",
+              "mercatini natalizi e festival jazz",
+              "rievocazioni storiche a Carcassonne e Avignone"
+            ]
+          },
+          {
+            "id": 6,
+            "keywords": [
+              "formaggi artigianali come Camembert e Roquefort",
+              "degustazioni nelle fromagerie francesi",
+              "Route des Fromages in Savoia",
+              "abbinamenti tra formaggi e vini locali"
+            ]
+          },
+          {
+            "id": 7,
+            "keywords": [
+              "castelli della Loira come Chambord e Chenonceau",
+              "fortezze medievali della Dordogna",
+              "dimore storiche in Alsazia e Borgogna",
+              "case-museo di scrittori come Victor Hugo"
+            ]
+          }
+        ]
+    },
+    {
+        "country": "DE",
+        "contents": [
+          {
+            "id": 1,
+            "keywords": [
+              "musei scientifici e tecnologici a Monaco",
+              "Isola dei Musei di Berlino con arte antica e islamica",
+              "musei d'avanguardia a Lipsia e Amburgo",
+              "capolavori rinascimentali a Dresda",
+              "case museo di Goethe, Bach e Beethoven"
+            ]
+          },
+          {
+            "id": 2,
+            "keywords": [
+              "specialità bavaresi come Weißwurst e Schweinshaxe",
+              "Sauerbraten e piatti a base di cavolo in Renania",
+              "currywurst e street food ai mercati rionali",
+              "pane tedesco in centinaia di varietà regionali",
+              "strudel di mele e torta Foresta Nera"
+            ]
+          },
+          {
+            "id": 3,
+            "keywords": [
+              "Porta di Brandeburgo e Muro di Berlino",
+              "castello di Neuschwanstein in Baviera",
+              "Duomo gotico di Colonia sul Reno",
+              "centri storici ricostruiti come Norimberga",
+              "porti e Speicherstadt di Amburgo",
+              "castello universitario romantico di Heidelberg"
+            ]
+          },
+          {
+            "id": 4,
+            "keywords": [
+              "escursioni in Foresta Nera e monti dell'Harz",
+              "ciclovie tra i laghi di Baviera come Chiemsee",
+              "Parco Nazionale della Sassonia Svizzera",
+              "alpinismo e sci nelle Alpi bavaresi",
+              "crociere fluviali lungo Reno e Mosella"
+            ]
+          },
+          {
+            "id": 5,
+            "keywords": [
+              "Oktoberfest di Monaco e birra tradizionale",
+              "Carnevale renano a Colonia e Düsseldorf",
+              "mercatini di Natale tra Norimberga e Stoccarda",
+              "festival musicali e culturali in tutta la Germania",
+              "Bayreuth e celebrazioni wagneriane"
+            ]
+          },
+          {
+            "id": 6,
+            "keywords": [
+              "Reinheitsgebot e cultura birraria bavarese",
+              "biergarten e birrifici storici a Monaco",
+              "varietà regionali: Pils, Kellerbier, Weizenbier",
+              "degustazioni e tour nei birrifici tedeschi"
+            ]
+          },
+          {
+            "id": 7,
+            "keywords": [
+              "Weihnachtsmärkte e decorazioni artigianali",
+              "mercatini natalizi a Dresda, Monaco e Norimberga",
+              "dolci tradizionali come Lebkuchen",
+              "folklore bavarese con danze e costumi tipici",
+              "feste religiose alpine e sagre del raccolto"
+            ]
+          }
+        ]
+    },
+    {
+        "country": "ES",
+        "contents": [
+          {
+            "id": 1,
+            "keywords": [
+              "musei con secoli di storia e arte in Spagna",
+              "opere di Velázquez, Goya e Picasso a Madrid",
+              "musei d'arte catalana a Barcellona",
+              "influenze cristiane, arabe ed ebraiche a Toledo e Granada",
+              "architettura di Antoni Gaudí in Catalogna"
+            ]
+          },
+          {
+            "id": 2,
+            "keywords": [
+              "gastronomia regionale e conviviale spagnola",
+              "tapas, gazpacho, jamón ibérico e paella",
+              "pintxos e frutti di mare nei Paesi Baschi e Galizia",
+              "mercati alimentari come la Boqueria a Barcellona",
+              "tradizione del tapeo serale e vita rilassata"
+            ]
+          },
+          {
+            "id": 3,
+            "keywords": [
+              "Alhambra di Granada e architettura islamica",
+              "Mezquita di Cordova e sincretismo culturale",
+              "Sagrada Família e Casa Batlló a Barcellona",
+              "acquedotti e castelli medievali a Segovia e Toledo",
+              "Santiago de Compostela e itinerari spirituali"
+            ]
+          },
+          {
+            "id": 4,
+            "keywords": [
+              "escursioni e trekking nei Picos de Europa",
+              "Cammino di Santiago come itinerario culturale",
+              "attività marine alle Baleari e Canarie",
+              "sport acquatici sulla Costa Brava e Costa del Sol",
+              "cicloturismo in Estremadura e Aragona"
+            ]
+          },
+          {
+            "id": 5,
+            "keywords": [
+              "Feria de Abril e flamenco a Siviglia",
+              "San Fermín e corsa dei tori a Pamplona",
+              "Tomatina di Buñol e battaglia di pomodori",
+              "Las Fallas di Valencia e fuochi d'artificio",
+              "festival musicali Primavera Sound e Sónar"
+            ]
+          },
+          {
+            "id": 6,
+            "keywords": [
+              "vita notturna con tapas e birra locale",
+              "movida in bar, terrazze e locali di flamenco",
+              "specialità locali come patatas bravas e montaditos",
+              "club e nightlife universitaria a Granada e Ibiza"
+            ]
+          },
+          {
+            "id": 7,
+            "keywords": [
+              "Semana Santa con processioni a Siviglia e Málaga",
+              "Corpus Christi a Toledo e Granada",
+              "Diada de Sant Jordi in Catalogna",
+              "Romerías e pellegrinaggi tradizionali rurali",
+              "feste religiose regionali e folklore locale"
+            ]
+          }
+        ]
+    },
+    {
+        "country": "GR",
+        "contents": [
+          {
+            "id": 1,
+            "keywords": [
+              "Museo dell'Acropoli con sculture classiche ad Atene",
+              "reperti micenei e romani al Museo Archeologico Nazionale",
+              "eredità bizantina a Salonicco",
+              "musei di Delfi, Olimpia e Creta con affreschi minoici",
+              "danze popolari, rebetiko e teatri antichi attivi"
+            ]
+          },
+          {
+            "id": 2,
+            "keywords": [
+              "piatti tipici greci come moussaka e souvlaki",
+              "mezedes serviti con ouzo nei kafenio",
+              "pesce fresco sulle isole greche",
+              "formaggi locali e stufati nelle zone montane",
+              "cucina greca mediterranea e familiare"
+            ]
+          },
+          {
+            "id": 3,
+            "keywords": [
+              "Acropoli di Atene e Partenone classico",
+              "oracolo di Apollo e teatro di Delfi",
+              "giochi olimpici antichi a Olimpia",
+              "monasteri di Meteora su rocce verticali",
+              "Palazzo di Cnosso e mito del Minotauro a Creta",
+              "Santorini e paesaggi iconici dell'Egeo"
+            ]
+          },
+          {
+            "id": 4,
+            "keywords": [
+              "sentieri escursionistici sull'Olimpo e nel Peloponneso",
+              "windsurf e kitesurf a Naxos e Paros",
+              "traversata E4 della Grecia",
+              "canyon di Samaria e gole cretesi",
+              "spiagge di Lefkada e Milos per sport acquatici"
+            ]
+          },
+          {
+            "id": 5,
+            "keywords": [
+              "Pasqua ortodossa e spiritualità popolare",
+              "festival teatrale ad Atene ed Epidauro",
+              "Carnevale di Patrasso e riti dionisiaci",
+              "feste patronali con musica e fuochi",
+              "eventi estivi di musica e cinema"
+            ]
+          },
+          {
+            "id": 6,
+            "keywords": [
+              "siti archeologici come Epidauro e Dodona",
+              "storia greca antica in ogni regione",
+              "Asia Minore e legami con l'Ellenismo",
+              "ceramiche e statue nei musei locali"
+            ]
+          },
+          {
+            "id": 7,
+            "keywords": [
+              "isole greche con panorami spettacolari",
+              "Cicladi: Mykonos, Santorini e Naxos",
+              "Sporadi, Ionie e Dodecaneso con varietà culturale",
+              "isole minori come Folegandros autentiche e tranquille",
+              "vita costiera tra pesca e taverne sul mare"
+            ]
+          }
+        ]
+    }                        
+]

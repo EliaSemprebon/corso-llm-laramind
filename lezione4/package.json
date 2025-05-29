@@ -11,6 +11,9 @@
   "author": "Elia Semprebon",
   "license": "ISC",
   "dependencies": {
+    "@langchain/anthropic": "^0.3.21",
+    "@langchain/core": "^0.3.27",
+    "@langchain/openai": "^0.3.17",
     "axios": "^1.9.0",
     "chromadb": "^1.8.1",
     "dotenv": "^16.5.0",
@@ -19,9 +22,6 @@
     "morgan": "^1.10.0",
     "nodemon": "^3.1.10",
     "openai": "^4.98.0",
-    "tiktoken": "^1.0.21",
-    "@langchain/anthropic": "^0.3.19",
-    "@langchain/core": "^0.3.27",
-    "@langchain/openai": "^0.3.17"
+    "tiktoken": "^1.0.21"
   }
 }

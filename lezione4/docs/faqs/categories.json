@@ -1,0 +1,26 @@
+[
+    {
+      "id": 1,
+      "filename": "software.md",
+      "name": "Problemi Software",
+      "summary": "Include problematiche legate a malfunzionamenti del firmware, aggiornamenti falliti, blocchi dell'interfaccia utente, errori di sincronizzazione cloud, problemi di licenza, driver non compatibili, perdite di configurazione, crash dovuti a software di terze parti e incompatibilità tra moduli software e sistema operativo."
+    },
+    {
+      "id": 2,
+      "filename": "electrics.md",
+      "name": "Problemi Elettrici",
+      "summary": "Tratta guasti elettrici come mancanza di alimentazione, spegnimenti improvvisi, corto circuiti, LED non funzionanti, scariche elettriche, odori di bruciato, problemi di ricarica della batteria, vibrazioni o rumori anomali, scintille all'accensione, problemi alla retroilluminazione dei display e interferenze elettromagnetiche."
+    },
+    {
+      "id": 3,
+      "filename": "network.md",
+      "name": "Problemi Rete e Comunicazione",
+      "summary": "Copre disconnessioni Wi-Fi, assenza di rete, problemi con DHCP e IP statici, errori di sincronizzazione con server, guasti nei moduli Bluetooth o Ethernet, pacchetti corrotti o incompleti, difficoltà con server NTP, invio fallito di notifiche push o email, e mancata connessione a broker MQTT."
+    },
+    {
+      "id": 4,
+      "filename": "calibration.md",
+      "name": "Problemi di Calibrazione",
+      "summary": "Comprende difficoltà nella calibrazione di sensori, offset errati, fallimenti nelle procedure automatiche, mancato salvataggio delle tarature, deriva dei valori, instabilità dopo calibrazione, assenza del comando di calibrazione, problemi su assi specifici, richieste di calibrazione frequenti e valori fluttuanti post taratura."
+    }
+]

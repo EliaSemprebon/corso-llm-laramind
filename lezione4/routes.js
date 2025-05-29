@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-const travelAgentRoutes = require('./api/');
+const faqFinderRoutes = require('./api/faq-finder');
 
-router.use('/travel-agents', travelAgentRoutes);
+router.use('/faq-finder', faqFinderRoutes);
 
 module.exports = router;
